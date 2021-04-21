@@ -6,7 +6,8 @@ const mongoConfig = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
-    directConnection: true,
+    directConnection: true, // ! important for this Replica Set !
+    useFindAndModify: false,
     replicaSet: 'rs0',
   },
 };
