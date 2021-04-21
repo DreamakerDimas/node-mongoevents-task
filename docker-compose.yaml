@@ -1,0 +1,19 @@
+version: '3.4'
+services:
+  server-node:
+    build:
+      context: './server'
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    ports:
+      - 4000:4000
+
+  mongodb:
+    image: mongo
+    ports:
+      - '27017:27017'
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'rs0']

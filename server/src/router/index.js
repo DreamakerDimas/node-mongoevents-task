@@ -16,7 +16,7 @@ router.delete('/meta/tracks', (req, res) => {
 });
 
 router.get('/test', (req, res) => {
-  createTrack({ titl: '54321' });
+  createTrack({ title: '54321' });
 });
 
 module.exports = router;

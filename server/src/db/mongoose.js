@@ -9,6 +9,7 @@ mongoose.connect(
       console.log('Mongo error:\n', err);
       process.exit(1);
     }
+    console.log('Mongo connected!');
   }
 );
 
