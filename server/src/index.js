@@ -43,14 +43,15 @@ const initSync = async () => {
 initSync();
 
 //
-// tracks changes watcher
+// tracks collection changes watcher
 const tracksEventEmitter = Tracks.watch();
+
 tracksEventEmitter.on('change', async (change) => {
   const type = change.operationType;
+  const docId = change.documentKey._id;
 
   if (type === 'insert' || type === 'update') {
     let result = false; // always boolean
-    const docId = change.documentKey._id;
 
     const trackData = await getTrack(docId);
 
@@ -69,6 +70,17 @@ tracksEventEmitter.on('change', async (change) => {
       console.log('success', trackData._id);
     } else {
       console.log('error', trackData._id);
+    }
+  }
+
+  // don't have title checker, - cause field title didn't exist in change event
+  if (type === 'delete') {
+    const result = await sendDeleteEvent(docId);
+
+    if (result) {
+      console.log('success', docId);
+    } else {
+      console.log('error', docId);
     }
   }
 });

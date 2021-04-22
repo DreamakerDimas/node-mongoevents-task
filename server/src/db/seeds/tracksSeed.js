@@ -2,9 +2,11 @@ const { createTrack } = require('../queries/tracksQueries');
 
 async function* tracksGenerator() {
   let i = 0;
+  let title = '';
   while (i < 50) {
-    yield createTrack({ title: `123-${i}` });
-    console.log('gen_title:', `123-${i}`);
+    title = `123-${i}`;
+    yield createTrack({ title });
+    console.log('gen_title:', title);
     i++;
   }
 }

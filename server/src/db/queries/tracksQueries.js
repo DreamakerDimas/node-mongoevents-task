@@ -61,8 +61,6 @@ module.exports.deleteTrack = async (track) => {
 
     await Tracks.findOneAndRemove(track);
 
-    if (titleIsMatches(trackData.title)) await sendDeleteEvent(trackData._id); // !!! if error then loose event
-
     return true;
   } catch (err) {
     console.log(err);
