@@ -14,5 +14,8 @@ const mongoConfig = {
 
 const serverPort = 4000;
 
+const titleRegex = /^123*/;
+
 module.exports.mongoConfig = mongoConfig;
 module.exports.serverPort = serverPort;
+module.exports.titleRegex = titleRegex;
