@@ -16,7 +16,7 @@ const {
 
 const app = express();
 app.use(express.json());
-app.use(router);
+app.use(router); // for test purposes
 
 const server = http.createServer(app);
 server.listen(serverPort, () =>
@@ -36,7 +36,8 @@ const initSync = async () => {
     offset += limit;
 
     for (const track of batch.tracksArr) {
-      sendInsertEvent(track);
+      const res = await sendInsertEvent(track);
+      console.log('Init insert:', track._id, '| result:', res);
     }
   }
 };
@@ -44,43 +45,46 @@ initSync();
 
 //
 // tracks collection changes watcher
-const tracksEventEmitter = Tracks.watch();
+const changeWatcher = async () => {
+  const tracksEventEmitter = Tracks.watch();
 
-tracksEventEmitter.on('change', async (change) => {
-  const type = change.operationType;
-  const docId = change.documentKey._id;
+  tracksEventEmitter.on('change', async (change) => {
+    const type = change.operationType;
+    const docId = change.documentKey._id;
 
-  if (type === 'insert' || type === 'update') {
-    let result = false; // always boolean
+    if (type === 'insert' || type === 'update') {
+      let result = false; // always boolean
 
-    const trackData = await getTrack(docId);
+      const trackData = await getTrack(docId);
 
-    if (!titleIsMatches(trackData.title)) return;
+      if (!titleIsMatches(trackData.title)) return;
 
-    switch (type) {
-      case 'insert':
-        result = await sendInsertEvent(trackData);
-        break;
-      case 'update':
-        result = await sendUpdateEvent(trackData);
-        break;
+      switch (type) {
+        case 'insert':
+          result = await sendInsertEvent(trackData);
+          break;
+        case 'update':
+          result = await sendUpdateEvent(trackData);
+          break;
+      }
+
+      if (result) {
+        console.log('success', trackData._id);
+      } else {
+        console.log('error', trackData._id);
+      }
     }
 
-    if (result) {
-      console.log('success', trackData._id);
-    } else {
-      console.log('error', trackData._id);
-    }
-  }
+    // don't have title checker, - cause field title didn't exist in change event
+    if (type === 'delete') {
+      const result = await sendDeleteEvent(docId);
 
-  // don't have title checker, - cause field title didn't exist in change event
-  if (type === 'delete') {
-    const result = await sendDeleteEvent(docId);
-
-    if (result) {
-      console.log('success', docId);
-    } else {
-      console.log('error', docId);
+      if (result) {
+        console.log('success', docId);
+      } else {
+        console.log('error', docId);
+      }
     }
-  }
-});
+  });
+};
+changeWatcher();

@@ -1,7 +1,7 @@
 const http = require('http');
 const { titleRegex } = require('../constants');
 
-const options = { host: 'localhost', port: '3000' };
+const options = { host: 'localhost', port: '3000' }; // port: 4000
 
 module.exports.sendInsertEvent = async (body) => {
   return new Promise((resolve, reject) => {
@@ -22,7 +22,10 @@ module.exports.sendInsertEvent = async (body) => {
     });
 
     req.end();
-  }).catch((err) => console.log(err));
+  }).catch((err) => {
+    console.log(err);
+    return false;
+  });
 };
 
 module.exports.sendUpdateEvent = async (body) => {
@@ -44,7 +47,10 @@ module.exports.sendUpdateEvent = async (body) => {
     });
 
     req.end();
-  }).catch((err) => console.log(err));
+  }).catch((err) => {
+    console.log(err);
+    return false;
+  });
 };
 
 module.exports.sendDeleteEvent = (id) => {
@@ -64,7 +70,10 @@ module.exports.sendDeleteEvent = (id) => {
     });
 
     req.end();
-  }).catch((err) => console.log(err));
+  }).catch((err) => {
+    console.log(err);
+    return false;
+  });
 };
 
 module.exports.titleIsMatches = (title) => title.match(titleRegex);
