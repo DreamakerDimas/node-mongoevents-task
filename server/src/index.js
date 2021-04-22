@@ -45,7 +45,7 @@ initSync();
 
 //
 // tracks collection changes watcher
-const changeWatcher = async () => {
+const changesWatcher = async () => {
   const tracksEventEmitter = Tracks.watch();
 
   tracksEventEmitter.on('change', async (change) => {
@@ -87,4 +87,4 @@ const changeWatcher = async () => {
     }
   });
 };
-changeWatcher();
+changesWatcher();
