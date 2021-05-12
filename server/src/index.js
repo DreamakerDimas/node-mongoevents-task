@@ -33,6 +33,7 @@ const initSync = async () => {
   while (haveMore) {
     const batch = await getTracksArrAndCount(limit, offset);
     haveMore = batch.haveMore;
+    if (!haveMore) return;
     offset += limit;
 
     for (const track of batch.tracksArr) {
