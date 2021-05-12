@@ -8,7 +8,6 @@ services:
       - mongodb
     volumes:
       - ./server:/server
-      - /server/node_modules
     ports:
       - 4000:4000
 
