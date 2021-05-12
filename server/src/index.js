@@ -33,7 +33,6 @@ const initSync = async () => {
   while (haveMore) {
     const batch = await getTracksArrAndCount(limit, offset);
     haveMore = batch.haveMore;
-    if (!haveMore) return;
     offset += limit;
 
     for (const track of batch.tracksArr) {
@@ -42,7 +41,7 @@ const initSync = async () => {
     }
   }
 };
-initSync();
+setTimeout(initSync, 1000);
 
 //
 // tracks collection changes watcher
