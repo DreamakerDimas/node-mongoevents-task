@@ -25,7 +25,7 @@ module.exports.getTracksArrAndCount = async (limit, skip) => {
     const count = await Tracks.countDocuments({
       title: { $regex: titleRegex },
     });
-    const haveMore = count > skip;
+    const haveMore = count > skip + limit;
 
     return { tracksArr, haveMore };
   } catch (err) {
