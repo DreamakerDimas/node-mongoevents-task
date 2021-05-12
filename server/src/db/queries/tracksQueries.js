@@ -52,12 +52,9 @@ module.exports.updateTrack = async (track, updateData) => {
   }
 };
 
-module.exports.deleteTrack = async (track) => {
+module.exports.deleteTrack = async (trackData) => {
   try {
-    const trackData = await Tracks.findOne(track);
-
-    await Tracks.findOneAndRemove(track);
-
+    await Tracks.findOneAndRemove(trackData);
     return true;
   } catch (err) {
     console.log(err);

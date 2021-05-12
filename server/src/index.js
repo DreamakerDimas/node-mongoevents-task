@@ -58,6 +58,10 @@ const changesWatcher = async () => {
 
       const trackData = await getTrack(docId);
 
+      if (!trackData) {
+        console.log('error', trackData._id);
+        return;
+      }
       if (!titleIsMatches(trackData.title)) return;
 
       switch (type) {
@@ -69,22 +73,14 @@ const changesWatcher = async () => {
           break;
       }
 
-      if (result) {
-        console.log('success', trackData._id);
-      } else {
-        console.log('error', trackData._id);
-      }
+      console.log(result ? 'success' : 'error', trackData._id);
     }
 
     // don't have title checker, - cause field title didn't exist in change event
     if (type === 'delete') {
       const result = await sendDeleteEvent(docId);
 
-      if (result) {
-        console.log('success', docId);
-      } else {
-        console.log('error', docId);
-      }
+      console.log(result ? 'success' : 'error', trackData._id);
     }
   });
 };
