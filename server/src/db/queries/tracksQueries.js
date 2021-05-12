@@ -22,7 +22,10 @@ module.exports.getTracksArrAndCount = async (limit, skip) => {
       }
     ).exec();
 
-    const haveMore = tracksArr.length === limit;
+    const count = await Tracks.countDocuments({
+      title: { $regex: titleRegex },
+    });
+    const haveMore = count > skip;
 
     return { tracksArr, haveMore };
   } catch (err) {
