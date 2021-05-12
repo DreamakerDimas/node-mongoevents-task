@@ -7,6 +7,7 @@ const Tracks = require('./db/models/track');
 const {
   sendInsertEvent,
   sendUpdateEvent,
+  sendDeleteEvent,
   titleIsMatches,
 } = require('./functions/events');
 const {
