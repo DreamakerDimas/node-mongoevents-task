@@ -41,7 +41,7 @@ const initSync = async () => {
     }
   }
 };
-setTimeout(initSync, 1000);
+initSync();
 
 //
 // tracks collection changes watcher
