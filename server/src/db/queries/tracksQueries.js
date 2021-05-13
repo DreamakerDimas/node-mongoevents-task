@@ -11,7 +11,7 @@ module.exports.getTrack = async (id) => {
   }
 };
 
-module.exports.getTracksArrAndCount = async (limit, skip) => {
+module.exports.getTracksArr = async (limit, skip) => {
   try {
     const tracksArr = await Tracks.find(
       { title: { $regex: titleRegex } },

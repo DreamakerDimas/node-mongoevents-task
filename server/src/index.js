@@ -10,10 +10,7 @@ const {
   sendDeleteEvent,
   titleIsMatches,
 } = require('./functions/events');
-const {
-  getTrack,
-  getTracksArrAndCount,
-} = require('./db/queries/tracksQueries');
+const { getTrack, getTracksArr } = require('./db/queries/tracksQueries');
 
 const app = express();
 app.use(express.json());
@@ -32,7 +29,7 @@ const initSync = async () => {
   let offset = 0;
 
   while (haveMore) {
-    const batch = await getTracksArrAndCount(limit, offset);
+    const batch = await getTracksArr(limit, offset);
     haveMore = batch.haveMore;
     offset += limit;
 
@@ -59,7 +56,7 @@ const changesWatcher = async () => {
       const trackData = await getTrack(docId);
 
       if (!trackData) {
-        console.log('error', trackData._id);
+        console.log('error', docId);
         return;
       }
       if (!titleIsMatches(trackData.title)) return;
@@ -73,14 +70,14 @@ const changesWatcher = async () => {
           break;
       }
 
-      console.log(result ? 'success' : 'error', trackData._id);
+      console.log(result ? 'success' : 'error', docId);
     }
 
     // don't have title checker, - cause field title didn't exist in change event
     if (type === 'delete') {
       const result = await sendDeleteEvent(docId);
 
-      console.log(result ? 'success' : 'error', trackData._id);
+      console.log(result ? 'success' : 'error', docId);
     }
   });
 };

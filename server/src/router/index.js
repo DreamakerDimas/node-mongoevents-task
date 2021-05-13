@@ -3,7 +3,7 @@ const {
   createTrack,
   updateTrack,
   deleteTrack,
-  getTracksArrAndCount,
+  getTracksArr,
 } = require('../db/queries/tracksQueries');
 
 router.post('/test', async (req, res) => {
